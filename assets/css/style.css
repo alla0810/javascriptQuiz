@@ -1,0 +1,158 @@
+*{
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  /*justify-content: center;*/
+  /*align-items: center;*/
+  margin: 0px auto;
+  display: flex;
+  flex-direction: column;
+
+  color: #ffff;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+  text-align: center;
+  padding: 1%;
+  color: black;
+
+  text-transform: none;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding-top: 100px;
+  top: 30%;
+}
+
+.button {
+  display: flex;  
+  justify-content: center;
+
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: rgb(86, 18, 195);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  padding: 10px 30px;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
+
+.option-button {
+  display: flex;  
+  justify-content: space-around;
+
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: rgb(86, 18, 195);
+  align-items: left;
+  justify-content: left;
+
+  padding: 10px 30px;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+
+  min-width: 400px;
+
+  margin-top: 10px;  
+  margin-left: 10%;
+}
+
+h1 {
+  text-align: center;  
+  font-size: 2.0em;
+  color: #000;
+  font-weight: bold;
+  margin: 20px;
+
+  align-items: center;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.3em;
+  color: #000;
+  font-weight: 200;
+  margin: 20px;
+
+  align-items: center;
+  text-align: center;
+
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  min-width: 400px;
+  font-size: 1.0em;
+}
+
+header a {
+  font-size: 1.0em; 
+  font-weight: 100;   
+  color: rgb(233, 121, 212);
+  text-decoration: none;
+}
+
+.highScore {
+  color: pink;
+}
+
+.timer {
+  color: black;
+}
+
+p1 {
+  color: rgb(233, 121, 212);
+  text-decoration: none;
+}
+
+.hide
+{
+  display: none;
+}
+
+.question
+{
+  text-align: center;  
+  font-size: 2.0em;
+  color: #000;
+  font-weight: bold;
+  margin: 20px;
+}
+
+ question-text {
+  text-align: center;  
+  font-size: 2.0em;
+  color: #000;
+  font-weight: bold;
+  margin: 20px;
+
+  align-items: left;
+  text-align: left;
+
+  margin-left: 10%;
+  margin-bottom: 100px;
+
+  padding-bottom: 100px;
+}
