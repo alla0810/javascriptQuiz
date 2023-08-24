@@ -1,6 +1,8 @@
+var DynamicDisplayEl = document.getElementById("Dynamic-Display");
+
 var timeEl = document.getElementById("timer-Count");
 var quizTimer = document.getElementById("quiz-timer");
-var startQuizButton = document.querySelector("#start-quiz");
+var startQuizButton = document.getElementById("start-quiz");
 var h1El = document.getElementById("h1-element");
 var h2El = document.getElementById("h2-element");
 var resultEl = document.getElementById("result-element");
@@ -8,6 +10,8 @@ var formEl = document.getElementById("form-initial");
 var submitButton = document.querySelector("#initial-submit");
 var gobackContainerEl = document.getElementById("go-back");
 var inputInitialEl = document.getElementById("input-initial");
+var gobackButtonEl = document.getElementById("button-goback");
+var clearHighscoreButtonEl = document.getElementById("clear-highscore");
 
 var questionContainer = document.getElementById("question-container");
 
@@ -93,15 +97,9 @@ function sendMessage() {
 
 }
 
-startQuizButton.addEventListener("click", function(event) {
-    startQuizButton.setAttribute('style', 'background-color:rgb(233, 121, 212)');
-    
-    event.preventDefault();
-    setTime();
-    
-    invokeQuiz();
-});
 
+
+/*
 option0Button.addEventListener("click", function(event) {
     option0Button.setAttribute('style', 'background-color:rgb(233, 121, 212)');
     
@@ -110,7 +108,8 @@ option0Button.addEventListener("click", function(event) {
     
     checkAnswer();
 });
-
+*/
+/*
 option1Button.addEventListener("click", function(event) {
     option1Button.setAttribute('style', 'background-color:rgb(233, 121, 212)');
     
@@ -119,7 +118,8 @@ option1Button.addEventListener("click", function(event) {
 
     checkAnswer();
 });
-
+*/
+/*
 option2Button.addEventListener("click", function(event) {
     option2Button.setAttribute('style', 'background-color:rgb(233, 121, 212)');
     
@@ -128,7 +128,8 @@ option2Button.addEventListener("click", function(event) {
     
     checkAnswer();
 });
-
+*/
+/*
 option3Button.addEventListener("click", function(event) {
     option3Button.setAttribute('style', 'background-color:rgb(233, 121, 212)');
     
@@ -137,7 +138,29 @@ option3Button.addEventListener("click", function(event) {
     
     checkAnswer();
 });
+*/
+/*
+gobackButtonEl.addEventListener("click", function(event) {
+    gobackButtonEl.setAttribute('style', 'background-color:rgb(233, 121, 212)');
+    
+    event.preventDefault();
 
+    initialize_display();
+});
+*/
+
+/*
+clearHighscoreButtonEl.addEventListener("click", function(event) {
+    clearHighscoreButtonEl.setAttribute('style', 'background-color:rgb(233, 121, 212)');
+    
+    event.preventDefault();
+
+    highScore_History = [];
+    display_highScore();
+});
+*/
+
+/*
 submitButton.addEventListener("click", function(event) {
     event.preventDefault();
 
@@ -154,7 +177,9 @@ submitButton.addEventListener("click", function(event) {
 
     display_highScore();
 });
+*/
 
+/*
 formEl.addEventListener("submit", (event) => {
     console.log("formEl.addEventListener");    
 
@@ -177,7 +202,7 @@ formEl.addEventListener("submit", (event) => {
     display_highScore();
 
 });
-
+*/
 
 function display_highScore()
 {
@@ -226,19 +251,26 @@ function checkAnswer()
 {
     console.log("checkAnswer");    
 
+    var barEl = document.createElement("bottom-result-display");
+    barEl.classList.add('bottom-result-display');    
+    barEl.innerText = "_______________________________________";
+
+    var resultEl = document.createElement("bottom-result-display");
+    resultEl.classList.add('bottom-result-display');        
+
     if (quizArray[questionNum].options[checkedOption] === quizArray[questionNum].correct)
     {
         console.log("Correct!");
 
         resultEl.innerText = "Correct!";
-        resultEl.style.visibility = 'visible';        
     }
     else
     {
         console.log("Wrong!");
         resultEl.innerText = "Wrong!";        
-        resultEl.style.visibility = 'visible';                
     }
+    DynamicDisplayEl.appendChild(barEl);
+    DynamicDisplayEl.appendChild(resultEl);
 
     questionCount++;
     console.log("questionCount = " + questionCount);
@@ -253,53 +285,81 @@ function checkAnswer()
     }
 }
 
+/*
+<form id="form-initial">
+<lable for="name" class="h2">Enter initials: </lable>
+<input type="text" id="input-initial" name="name" />
+<button type="submit" id="initial-submit">Submit</button>
+</form>
+*/
+
 function enter_initial()
 {
     console.log("enter_initial!");    
 
-    option0Button.style.visibility = 'hidden';
-    option1Button.style.visibility = 'hidden';
-    option2Button.style.visibility = 'hidden';
-    option3Button.style.visibility = 'hidden';
-    resultEl.style.visibility = 'hidden';
-    h2El.style.visibility = 'visible';    
-    formEl.style.visibility='visible';    
+    DynamicDisplayEl.innerHTML = "";
 
-    h1El.innerHTML = "All done!";
-    h2El.innerHTML = "Your final score is " + secondsLeft + ".";
+    var h1List = document.createElement("h1");
+    h1List.textContent = "All done!";
+    DynamicDisplayEl.appendChild(h1List);    
+
+    var h2List = document.createElement("h2");
+    h2List.textContent = "Your final score is " + secondsLeft + ".";
+    DynamicDisplayEl.appendChild(h2List);
+
+    var navEl = document.createElement("nav");
+    var ulEl = document.createElement("ul");
+    var enterInitialTextEl = document.createElement("h2");
+    enterInitialTextEl.textContent = "Enter initials: ";
+   
+    var inputInitialEl = document.createElement("input");
+    inputInitialEl.setAttribute("type", "text");
+    inputInitialEl.setAttribute("value", "JaneDoe");
+
+    var submitButtonEl = document.createElement("button");
+    submitButtonEl.classList.add('button_class');
+    submitButtonEl.innerText = "Submit";
+    
+    
 
 }
 
 
-
-
-
 function displayQuiz()
 {
+    console.log("displayQuiz!");        
 
-    h1El.innerHTML = "";
-    h2El.innerHTML = "";
+    DynamicDisplayEl.innerHTML = "";
+    DynamicDisplayEl.classList.remove('DynamicDisplay_class');
+    DynamicDisplayEl.classList.add('Quiz_container');
 
-    startQuizButton.style.visibility = 'hidden';
+    var QuizQuestionEl = document.createElement("Quiz_question_class");
+    QuizQuestionEl.classList.add('Quiz_question_class');
+    QuizQuestionEl.textContent = quizArray[questionNum].question;
+    DynamicDisplayEl.appendChild(QuizQuestionEl);
+    DynamicDisplayEl.innerHTML += "<br>";
 
-    option0Button.setAttribute('style', 'background-color:rgb(60, 37, 97)');
-    option1Button.setAttribute('style', 'background-color:rgb(60, 37, 97)');
-    option2Button.setAttribute('style', 'background-color:rgb(60, 37, 97)');
-    option3Button.setAttribute('style', 'background-color:rgb(60, 37, 97)');    
+    var optionButton = [];
 
-    option0Button.style.visibility = 'visible';
-    option1Button.style.visibility = 'visible';
-    option2Button.style.visibility = 'visible';
-    option3Button.style.visibility = 'visible';
-    resultEl.style.visibility = 'hidden';    
+    for (let i=0; i<4; i++)
+    {
+        optionButton[i] = document.createElement("button");
 
-    h1El.innerHTML = quizArray[questionNum].question;
-    h2El.style.visibility = 'hidden';
+        optionButton[i].classList.add('option-button');
+        optionButton[i].id = "option" + i;
+        optionButton[i].innerText = quizArray[questionNum].options[i];
 
-    option0Button.innerText = quizArray[questionNum].options[0];
-    option1Button.innerText = quizArray[questionNum].options[1];
-    option2Button.innerText = quizArray[questionNum].options[2];
-    option3Button.innerText = quizArray[questionNum].options[3];    
+        optionButton[i].addEventListener("click", function(event) {
+            optionButton[i].setAttribute('style', 'background-color:rgb(233, 121, 212)');
+        
+            event.preventDefault();
+            checkedOption = i;
+    
+            checkAnswer();
+        });
+
+        DynamicDisplayEl.appendChild(optionButton[i]);
+    }
 
 }
 
@@ -307,16 +367,38 @@ function displayQuiz()
 function initialize_display() {
     console.log("initialize_display");
 
-    formEl.style.visibility='hidden';
-    option0Button.style.visibility = 'hidden';
-    option1Button.style.visibility = 'hidden';
-    option2Button.style.visibility = 'hidden';
-    option3Button.style.visibility = 'hidden';
-    resultEl.style.visibility = 'hidden';
-    gobackContainerEl.style.visibility = 'hidden';
+    DynamicDisplayEl.classList.add('DynamicDisplay_class');
+
+    var h1List = document.createElement("h1");
+    h1List.textContent = "Coding Quiz Challenge";
+    DynamicDisplayEl.appendChild(h1List);    
+
+    var h2List1 = document.createElement("h2");
+    var h2List2 = document.createElement("h2");
+    h2List1.textContent = "Try to answer the following code-related questions within the time limit.";
+    h2List2.textContent = "Keep in mind that incorrect answers will penalize your score/time by ten seconds!";
+    DynamicDisplayEl.appendChild(h2List1);
+    DynamicDisplayEl.appendChild(h2List2);
+
+    DynamicDisplayEl.innerHTML += "<br>";
+
+    startQuizButton = document.createElement("button");
+    startQuizButton.classList.add('button_class');
+    startQuizButton.id = "start-quiz";
+    startQuizButton.innerText = "Start Quiz";
+    startQuizButton.addEventListener("click", function(event) {
+        startQuizButton.setAttribute('style', 'background-color:rgb(233, 121, 212)');
+        
+        event.preventDefault();
+        setTime();
+        
+        invokeQuiz();
+    });
+
+    DynamicDisplayEl.appendChild(startQuizButton);
+
 
     setTime();
-
 }
 
 

@@ -24,22 +24,20 @@ header {
   color: black;
 
   text-transform: none;
+  
 }
 
 main {
   display: flex;
   flex-direction: column;
 /*  align-items: center;*/
-  justify-content: left;
-  margin-left: 20%;
+  /*justify-content: left;*/
+  /*margin-left: 20%;*/
   padding-top: 100px;
   top: 30%;
-
-  max-width: 80%;
-  min-width: 50%;
 }
 
-.button {
+.button_class {
   display: flex;  
   justify-content: center;
 
@@ -48,36 +46,63 @@ main {
   cursor: pointer;
   background-color: rgb(60, 37, 97);
   align-items: center;
-  justify-content: center;
   text-align: center;
 
   padding: 10px 30px;
   color: white;
   font-size: 18px;
   border-radius: 10px;
+  width: 200px;
 }
 
+.DynamicDisplay_class
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  align-items: center;
+}
+
+.Quiz_container
+{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: left;
+/*  margin-left: 200px;*/
+  margin-left: 150px;
+}
+
+.Quiz_question_class
+{
+  text-align: left;  
+  font-size: 2.0em;
+  color: #000;
+  font-weight: bold;
+
+  align-items: left;
+  text-align: left;
+}
 
 .option-button {
   display: flex;  
-  justify-content: space-around;
+  justify-content: left;
 
   border: none;
   outline: none;
   cursor: pointer;
   background-color: rgb(60, 37, 97);
   align-items: left;
-  justify-content: left;
 
   padding: 10px 30px;
   color: white;
   font-size: 18px;
   border-radius: 10px;
 
-  min-width: 400px;
-
+/*  min-width: 400px;*/
   margin-top: 10px;  
-
+  width: 300px;  
 }
 
 h1 {
@@ -97,11 +122,9 @@ h2 {
   font-size: 1.3em;
   color: #000;
   font-weight: 200;
-  margin: 20px;
 
   align-items: center;
-  text-align: center;
-
+  text-align: center;  
 }
 
 nav ul {
@@ -167,17 +190,18 @@ question-container_class
   margin-left: 10%;;
 }
 
-bottom-result-display
+.bottom-result-display
 {
   font-size: 2.0em;
-  color: #333;
+  color: gray;
   font-style: italic;
 
-  font-weight: bold;
-  margin-left: 20%;
+/*  font-weight: bold;*/
+/*  margin-left: 20%;*/
 
   align-items: center;
   text-align: left;
+  margin-top: 20px;
 }
 
 nav {

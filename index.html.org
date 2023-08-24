@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javascript Quiz</title>
+    <link rel="stylesheet" href="./assets/css/reset.css" />        
+    <link rel="stylesheet" href="./assets/css/style.css"/>
+</head>
+
+<body>
+    <header>
+        <a href="#" >View high scores</a>        
+        <div id="timer-Count"><p class="time"></p></div>
+    </header>
+    <main>
+        <h1 id="h1-element">
+        </h1>
+        <div id="Dynamic-Display">
+            <h2 id="h2-element">
+            </h2>
+            <div>
+                <button id="start-quiz" class="button">Start Quiz</button>
+            </div>        
+            <form id="form-initial">
+                <lable for="name" class="h2">Enter initials: </lable>
+                <input type="text" id="input-initial" name="name" />
+                <button type="submit" id="initial-submit">Submit</button>
+            </form>
+            <nav id="go-back" class="goback-button-container">
+                <ul>
+                    <button id="button-goback" class="button" data-inline="true">Go back</button> 
+                    <button id="clear-highscore" class="button" data-inline="true">Clear high scores</button>
+                </ul>
+            </nav>
+            <div id="question-container" class = "question-container_class">
+                <button id="option0" class="option-button"></button>
+                <button id="option1" class="option-button"></button>
+                <button id="option2" class="option-button"></button>
+                <button id="option3" class="option-button"></button>                        
+            </div>
+            <bottom-result-display id = "result-element"></bottom-result-display>
+        </div>
+    </main>        
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
