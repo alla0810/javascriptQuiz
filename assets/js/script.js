@@ -4,9 +4,13 @@ var startQuizButton = document.querySelector("#start-quiz");
 var h1El = document.getElementById("h1-element");
 var h2El = document.getElementById("h2-element");
 var resultEl = document.getElementById("result-element");
+var formEl = document.getElementById("form-initial");
+var submitButton = document.querySelector("#initial-submit");
+var gobackContainerEl = document.getElementById("go-back");
+var inputInitialEl = document.getElementById("input-initial");
 
 var questionContainer = document.getElementById("question-container");
-var questionText = document.getElementById('question-text-container');
+
 var option0Button = document.getElementById("option0");
 var option1Button = document.getElementById("option1");
 var option2Button = document.getElementById("option2");
@@ -25,6 +29,9 @@ let checkedOption = -1;
 let scoreCount=0;
 let questionCount = 0;
 let selectedQuestionNum = [];
+
+let highScore_History = [];
+var player_info = {initial:"", score:0};
 
 const quizArray = [
     {
@@ -131,6 +138,63 @@ option3Button.addEventListener("click", function(event) {
     checkAnswer();
 });
 
+submitButton.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    submitButton.setAttribute('style', 'background-color:rgb(233, 121, 212)');
+
+    var player_initial = inputInitialEl.textContent;
+    var player_score = secondsLeft;
+
+    player_info.initial = player_initial;
+    player_info.score = player_score;
+
+    highScore_History.push(player_info);
+    highScore_History.sort((a,b) => (a.score > b.score) ? 1 : -1);  // sort by score
+
+    display_highScore();
+});
+
+formEl.addEventListener("submit", (event) => {
+    console.log("formEl.addEventListener");    
+
+    event.preventDefault();
+
+    submitButton.setAttribute('style', 'background-color:rgb(233, 121, 212)');
+
+    var player_initial = inputInitialEl.textContent;
+    var player_score = secondsLeft;
+
+    console.log("player_initial = " + player_initial) ;   
+    console.log("player_score = " + player_score) ;       
+
+    player_info.initial = player_initial;
+    player_info.score = player_score;
+
+    highScore_History.push(player_info);
+    highScore_History.sort((a,b) => (a.score > b.score) ? 1 : -1);  // sort by score
+
+    display_highScore();
+
+});
+
+
+function display_highScore()
+{
+    console.log("display_highScore")  ;  
+    h2El.innerHTML = "";
+    formEl.style.visibility='hidden';    
+
+    h1El.innerHTML = "High scores";
+
+    var li1 = document.createElement("li");
+    li1.textContent = highScore_History[0].initial + " - " + highScore_History[0].score;
+    li1.setAttribute("style", "background: #444");
+    h2El.appendChild(li1);
+
+    gobackContainerEl.style.visibility = 'visible';
+}
+
 
 function select_question_num()
 {
@@ -193,28 +257,17 @@ function enter_initial()
 {
     console.log("enter_initial!");    
 
-    questionText.style.visibility = 'hidden';
     option0Button.style.visibility = 'hidden';
     option1Button.style.visibility = 'hidden';
     option2Button.style.visibility = 'hidden';
     option3Button.style.visibility = 'hidden';
     resultEl.style.visibility = 'hidden';
+    h2El.style.visibility = 'visible';    
+    formEl.style.visibility='visible';    
 
     h1El.innerHTML = "All done!";
     h2El.innerHTML = "Your final score is " + secondsLeft + ".";
 
-    enterInitials.textContent = "Enter initials: ";
-
-
-//    inputInitial.setAttribute("style", "border-color: blue");
-    submitButton.setAttribute("style", "background-color: rgb(60, 37, 97)");
-
-    enterInitialEl.appendChild(enterInitials);
-    enterInitialEl.appendChild(inputInitial);
-    enterInitialEl.appendChild(submitButton);
-    h2El.appendChild(enterInitials);
-    h2El.appendChild(inputInitial);
-    h2El.appendChild(submitButton);        
 }
 
 
@@ -234,15 +287,14 @@ function displayQuiz()
     option2Button.setAttribute('style', 'background-color:rgb(60, 37, 97)');
     option3Button.setAttribute('style', 'background-color:rgb(60, 37, 97)');    
 
-    questionText.style.visibility = 'visible';
     option0Button.style.visibility = 'visible';
     option1Button.style.visibility = 'visible';
     option2Button.style.visibility = 'visible';
     option3Button.style.visibility = 'visible';
     resultEl.style.visibility = 'hidden';    
 
-    questionText.innerText = quizArray[questionNum].question;
-    questionText.setAttribute("style", "margin-top: 10px")
+    h1El.innerHTML = quizArray[questionNum].question;
+    h2El.style.visibility = 'hidden';
 
     option0Button.innerText = quizArray[questionNum].options[0];
     option1Button.innerText = quizArray[questionNum].options[1];
@@ -252,15 +304,16 @@ function displayQuiz()
 }
 
 
-function initial_display() {
-    console.log("initial_display");
+function initialize_display() {
+    console.log("initialize_display");
 
-    questionText.style.visibility = 'hidden';
+    formEl.style.visibility='hidden';
     option0Button.style.visibility = 'hidden';
     option1Button.style.visibility = 'hidden';
     option2Button.style.visibility = 'hidden';
     option3Button.style.visibility = 'hidden';
     resultEl.style.visibility = 'hidden';
+    gobackContainerEl.style.visibility = 'hidden';
 
     setTime();
 
@@ -268,4 +321,4 @@ function initial_display() {
 
 
 
-initial_display();
+initialize_display();

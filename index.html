@@ -24,16 +24,24 @@
         </h2>
         <div>
             <button id="start-quiz" class="button">Start Quiz</button>
-        </div>
+        </div>        
+        <form id="form-initial">
+            <lable for="name" class="h2">Enter initials: </lable>
+            <input type="text" id="input-initial" name="name" />
+            <button type="submit" id="initial-submit">Submit</button>
+        </form>
+        <nav id="go-back" class="goback-button-container">
+            <ul>
+                <button id="button-goback" class="button" data-inline="true">Go back</button> 
+                <button id="clear-highscore" class="button" data-inline="true">Clear high scores</button>
+            </ul>
+        </nav>
         <div id="question-container" class = "question-container_class">
-            <question-text id="question-text-container"></question-text>
-
             <button id="option0" class="option-button"></button>
             <button id="option1" class="option-button"></button>
             <button id="option2" class="option-button"></button>
             <button id="option3" class="option-button"></button>                        
         </div>
-
         <bottom-result-display id = "result-element"></bottom-result-display>
             
     </main>        
