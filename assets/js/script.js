@@ -15,27 +15,16 @@ var clearHighscoreButtonEl = document.getElementById("clear-highscore");
 
 var questionContainer = document.getElementById("question-container");
 
-var option0Button = document.getElementById("option0");
-var option1Button = document.getElementById("option1");
-var option2Button = document.getElementById("option2");
-var option3Button = document.getElementById("option3");
-
-var bodyEl = document.body;
-var enterInitialEl = document.createElement("div");
-var enterInitials = document.createElement("h2");
-var inputInitial = document.createElement("form");
-var submitButton = document.createElement("button");
-
-var secondsLeft = 10;
+var secondsLeft = 60;
 
 let questionNum = 0;
 let checkedOption = -1;
-let scoreCount=0;
+let playCount=0;
 let questionCount = 0;
 let selectedQuestionNum = [];
 
 let highScore_History = [];
-var player_info = {initial:"", score:0};
+var userInfoArray = [];
 
 const quizArray = [
     {
@@ -285,6 +274,8 @@ function checkAnswer()
     }
 }
 
+
+
 /*
 <form id="form-initial">
 <lable for="name" class="h2">Enter initials: </lable>
@@ -298,30 +289,162 @@ function enter_initial()
     console.log("enter_initial!");    
 
     DynamicDisplayEl.innerHTML = "";
+    DynamicDisplayEl.classList.remove('DynamicDisplay_class');
+    DynamicDisplayEl.classList.add('Quiz_container');
 
-    var h1List = document.createElement("h1");
-    h1List.textContent = "All done!";
-    DynamicDisplayEl.appendChild(h1List);    
+    var List1El = document.createElement("Quiz_question_class");
+    List1El.classList.add('Quiz_question_class');
+    List1El.textContent = "All done!";
+    DynamicDisplayEl.appendChild(List1El);    
+    DynamicDisplayEl.innerHTML += "<br>";
 
-    var h2List = document.createElement("h2");
-    h2List.textContent = "Your final score is " + secondsLeft + ".";
-    DynamicDisplayEl.appendChild(h2List);
+    var List2El = document.createElement("Quiz_question_class");
+    List2El.setAttribute('style', 'font-size: 1.5em; font-weight: 300');
+    List2El.textContent = "Your final score is " + secondsLeft + ".";
+    DynamicDisplayEl.appendChild(List2El);
+    DynamicDisplayEl.innerHTML += "<br>";    
 
+    var formEl = document.createElement("form");    
+    formEl.setAttribute("method", "post");
+    formEl.setAttribute("id", "initial-form");
     var navEl = document.createElement("nav");
     var ulEl = document.createElement("ul");
-    var enterInitialTextEl = document.createElement("h2");
-    enterInitialTextEl.textContent = "Enter initials: ";
+    var enterInitialTextEl = document.createElement("Quiz_question_class");
+    enterInitialTextEl.setAttribute('style', 'font-size: 1.5em; font-weight: 300');
+    enterInitialTextEl.textContent = "Enter initials:";
    
     var inputInitialEl = document.createElement("input");
     inputInitialEl.setAttribute("type", "text");
-    inputInitialEl.setAttribute("value", "JaneDoe");
+//    inputInitialEl.setAttribute("style", "width: 55%");
+    inputInitialEl.setAttribute("placeholder", "JaneDoe");
+    inputInitialEl.setAttribute("id", "InputInitialId");
 
     var submitButtonEl = document.createElement("button");
     submitButtonEl.classList.add('button_class');
     submitButtonEl.innerText = "Submit";
-    
-    
+    submitButtonEl.addEventListener("click", function(event) {
+        submitButtonEl.setAttribute('style', 'background-color:rgb(233, 121, 212)');
+        event.preventDefault();
 
+        var element = event.target;
+        var userInputInitial = document.getElementById("InputInitialId");
+        userInputInitial.setAttribute("style", "border: 3px solid rgb(4, 92, 122)");
+
+        console.log("element = " + element);        
+        console.log("userInputInitial = " + userInputInitial.value);
+        console.log("score = " + secondsLeft);
+
+        var userInfo = {
+            initial: userInputInitial.value,
+            score: secondsLeft,
+        }
+        userInfoArray.push(userInfo);
+        localStorage.setItem("userInfo", JSON.stringify(userInfoArray));;
+
+        playCount++;
+        localStorage.setItem("playCount", playCount);
+
+        renderUserInfo();
+    });
+
+    ulEl.appendChild(enterInitialTextEl);
+    ulEl.appendChild(inputInitialEl);
+    ulEl.appendChild(submitButtonEl);    
+    navEl.appendChild(ulEl);
+    formEl.appendChild(navEl);
+    DynamicDisplayEl.appendChild(formEl);
+
+}
+
+function renderUserInfo()
+{
+    console.log("renderUserInfo");
+
+    var count = JSON.parse(localStorage.getItem("playCount"));
+    var storedUsrInfo = JSON.parse(localStorage.getItem("userInfo"));
+    console.log("count: ", count);    
+    console.log("storedUsrInfo: ", storedUsrInfo);        
+
+    for (var i=0; i<count; i++)
+    {
+        console.log("initial[" + i + "]: ", storedUsrInfo[i].initial);
+        console.log("score[" + i + "]: ", storedUsrInfo[i].score);
+    }
+
+    storedUsrInfo.sort((a,b) => b.score - a.score);      //descending order
+
+    DynamicDisplayEl.innerHTML = "";
+    DynamicDisplayEl.classList.remove('DynamicDisplay_class');
+    DynamicDisplayEl.classList.add('Quiz_container');
+    var List1El = document.createElement("Quiz_question_class");
+
+    List1El.classList.add('Quiz_question_class');
+    List1El.textContent = "High scores";
+    DynamicDisplayEl.appendChild(List1El);    
+    DynamicDisplayEl.innerHTML += "<br>";
+
+    for (var i=0; i<count; i++)
+    {
+        console.log("initial[" + i + "]: ", storedUsrInfo[i].initial);
+        console.log("score[" + i + "]: ", storedUsrInfo[i].score);
+
+
+        var List2El = document.createElement("Quiz_question_class");
+        List2El.setAttribute('style', 'width: 700px; font-size: 1.5em; font-weight: 300; background: rgb(203, 184, 235); padding: 8px');        
+//        List2El.textContent = num.toString(i) + ". " + storedUsrInfo[i].initial + " - " + num.toString(storedUsrInfo[i].score);
+        List2El.textContent = (i+1).toString() + ". " + storedUsrInfo[i].initial + " - " + storedUsrInfo[i].score.toString();        
+
+        DynamicDisplayEl.appendChild(List2El);
+
+        console.log("initial[" + i + "]: ", storedUsrInfo[i].initial);
+        console.log("score[" + i + "]: ", storedUsrInfo[i].score);
+
+    }
+    DynamicDisplayEl.innerHTML += "<br>";    
+
+    var navEl = document.createElement("nav");
+    var ulEl = document.createElement("ul");
+    ulEl.setAttribute('style', 'width: 500px');      
+
+    var gobackButtonEl = document.createElement("button");
+    gobackButtonEl.classList.add('button_class');
+    gobackButtonEl.innerText = "Go back";
+    gobackButtonEl.addEventListener("click", function(event) {
+        gobackButtonEl.setAttribute('style', 'background-color:rgb(233, 121, 212)');
+        event.preventDefault();
+
+        initialize_display();
+    });
+
+    var clearHighScoreButtonEl = document.createElement("button");
+    clearHighScoreButtonEl.classList.add('button_class');
+    clearHighScoreButtonEl.setAttribute('style', 'width: 280px');    
+    clearHighScoreButtonEl.innerText = "Cear high scores";
+    clearHighScoreButtonEl.addEventListener("click", function(event) {
+        clearHighScoreButtonEl.setAttribute('style', 'background-color:rgb(233, 121, 212)');
+        event.preventDefault();
+
+        clear_highscore();
+    });
+
+    ulEl.appendChild(gobackButtonEl);
+    ulEl.appendChild(clearHighScoreButtonEl);
+    navEl.appendChild(ulEl);
+    DynamicDisplayEl.appendChild(navEl);
+
+    console.log("end of renderUserInfo");    
+}
+
+function clear_highscore()
+{
+    userInfoArray = [];
+    playCount = 0;
+    selectedQuestionNum = [];
+
+    localStorage.setItem("userInfo", JSON.stringify(userInfoArray));;
+    localStorage.setItem("playCount", playCount);
+
+    renderUserInfo();
 }
 
 
@@ -367,6 +490,8 @@ function displayQuiz()
 function initialize_display() {
     console.log("initialize_display");
 
+    secondsLeft = 60;
+    DynamicDisplayEl.innerHTML = "";    
     DynamicDisplayEl.classList.add('DynamicDisplay_class');
 
     var h1List = document.createElement("h1");
@@ -397,10 +522,11 @@ function initialize_display() {
 
     DynamicDisplayEl.appendChild(startQuizButton);
 
-
     setTime();
 }
 
 
-
+enter_initial();
+/*
 initialize_display();
+*/

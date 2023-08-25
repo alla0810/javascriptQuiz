@@ -83,6 +83,7 @@ main {
 
   align-items: left;
   text-align: left;
+  line-height: 1.2em;
 }
 
 .option-button {
@@ -127,12 +128,6 @@ h2 {
   text-align: center;  
 }
 
-nav ul {
-  display: flex;
-  justify-content: space-between;
-  min-width: 400px;
-  font-size: 1.0em;
-}
 
 header a {
   font-size: 1.0em; 
@@ -205,12 +200,18 @@ question-container_class
 }
 
 nav {
-  width: 40%;
-  margin: 40px;
+  display: flex;
+  justify-content: left;
 }
 
 nav ul {
   display: flex;
-  justify-content: space-evenly;
-  min-width: 200px;
+  justify-content: space-between;
+/*  min-width: 400px;*/
+  width: 600px;
+}
+
+input_border_class
+{
+  border: 3px solid rgb(4, 92, 122);
 }
