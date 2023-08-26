@@ -35,7 +35,11 @@ GIVEN I am taking a code quiz
 * WHEN I answer a question incorrectly, THEN time is subtracted from the clock   
   ➨ How much subtraction? (-10 seconds) from the start page
 
-* When the user answer correctly, THEN time is added by (+10 seconds)
+* When the user answer correctly, THEN time is added by (+10 seconds)    
+  ➨ Added by the author.  
+  ➨ From the mock-up picture, sometimes the timer exceeds the initial value, which means there should be some addtion of timer value when the answer is correct as a prize.    
+
+* When the user answer correctly, THEN time is added by (+10 seconds) 
   ➨ Added by the author.
   ➨ From the mock-up picture, sometimes the timer exceeds the initial value, which means there should be some addtion of timer value when the answer is correct as a prize.     
 
