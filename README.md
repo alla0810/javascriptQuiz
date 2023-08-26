@@ -9,7 +9,6 @@
 ![screen3](./assets/images/screen3.png)
 ![screen4](./assets/images/screen4.png)
 ![screen5](./assets/images/screen5.png)
-![screen6](./assets/images/screen6.png)
 
 ## Source Code References
   This project has used some reference codes from the following sites
