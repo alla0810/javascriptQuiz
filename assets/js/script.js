@@ -1,4 +1,5 @@
 var DynamicDisplayEl = document.getElementById("Dynamic-Display");
+var viewHighScoreEl = document.getElementById("View-Highscore");
 
 var timeEl = document.getElementById("timer-Count");
 var quizTimer = document.getElementById("quiz-timer");
@@ -16,6 +17,7 @@ var clearHighscoreButtonEl = document.getElementById("clear-highscore");
 var questionContainer = document.getElementById("question-container");
 
 var secondsLeft = 60;
+var gameStopped = false;
 
 let questionNum = 0;
 let checkedOption = -1;
@@ -67,19 +69,30 @@ function setTime()
     timeEl.textContent = "Time: " + secondsLeft;          
     var timerInterval = setInterval(function() {
 
+    secondsLeft--;                      
+
+    if (gameStopped === true)
+    {
+        clearInterval(timerInterval);
+    }
+    else
+    {
         if (secondsLeft >= 0)
         {
             timeEl.textContent = "Time: " + secondsLeft;  
-            secondsLeft--;              
         }
         else
         {
+            secondsLeft = 0;
             timeEl.textContent = "Time: 0";  
             clearInterval(timerInterval);
         }
+    }
 
     }, 1000);
 }
+
+
 
 function sendMessage() {
     timeEl.textContent = " ";
@@ -88,114 +101,11 @@ function sendMessage() {
 
 
 
-/*
-option0Button.addEventListener("click", function(event) {
-    option0Button.setAttribute('style', 'background-color:rgb(233, 121, 212)');
-    
-    event.preventDefault();
-    checkedOption = 0;
-    
-    checkAnswer();
-});
-*/
-/*
-option1Button.addEventListener("click", function(event) {
-    option1Button.setAttribute('style', 'background-color:rgb(233, 121, 212)');
-    
-    event.preventDefault();    
-    checkedOption = 1;
-
-    checkAnswer();
-});
-*/
-/*
-option2Button.addEventListener("click", function(event) {
-    option2Button.setAttribute('style', 'background-color:rgb(233, 121, 212)');
-    
-    event.preventDefault();
-    checkedOption = 2;    
-    
-    checkAnswer();
-});
-*/
-/*
-option3Button.addEventListener("click", function(event) {
-    option3Button.setAttribute('style', 'background-color:rgb(233, 121, 212)');
-    
-    event.preventDefault();
-    checkedOption = 3;    
-    
-    checkAnswer();
-});
-*/
-/*
-gobackButtonEl.addEventListener("click", function(event) {
-    gobackButtonEl.setAttribute('style', 'background-color:rgb(233, 121, 212)');
-    
-    event.preventDefault();
-
-    initialize_display();
-});
-*/
-
-/*
-clearHighscoreButtonEl.addEventListener("click", function(event) {
-    clearHighscoreButtonEl.setAttribute('style', 'background-color:rgb(233, 121, 212)');
-    
-    event.preventDefault();
-
-    highScore_History = [];
-    display_highScore();
-});
-*/
-
-/*
-submitButton.addEventListener("click", function(event) {
-    event.preventDefault();
-
-    submitButton.setAttribute('style', 'background-color:rgb(233, 121, 212)');
-
-    var player_initial = inputInitialEl.textContent;
-    var player_score = secondsLeft;
-
-    player_info.initial = player_initial;
-    player_info.score = player_score;
-
-    highScore_History.push(player_info);
-    highScore_History.sort((a,b) => (a.score > b.score) ? 1 : -1);  // sort by score
-
-    display_highScore();
-});
-*/
-
-/*
-formEl.addEventListener("submit", (event) => {
-    console.log("formEl.addEventListener");    
-
-    event.preventDefault();
-
-    submitButton.setAttribute('style', 'background-color:rgb(233, 121, 212)');
-
-    var player_initial = inputInitialEl.textContent;
-    var player_score = secondsLeft;
-
-    console.log("player_initial = " + player_initial) ;   
-    console.log("player_score = " + player_score) ;       
-
-    player_info.initial = player_initial;
-    player_info.score = player_score;
-
-    highScore_History.push(player_info);
-    highScore_History.sort((a,b) => (a.score > b.score) ? 1 : -1);  // sort by score
-
-    display_highScore();
-
-});
-*/
-
 function display_highScore()
 {
     console.log("display_highScore")  ;  
+    gameStopped = true;
+
     h2El.innerHTML = "";
     formEl.style.visibility='hidden';    
 
@@ -215,16 +125,23 @@ function select_question_num()
     questionNum = Math.floor(Math.random() * quizArray.length);
     console.log("questionNum = " + questionNum);
 
-    if (!selectedQuestionNum.includes(questionNum))
+    if (questionCount <= quizArray.length)
     {
-        selectedQuestionNum.push(questionNum);
-        return;
+        if (!selectedQuestionNum.includes(questionNum))
+        {
+            selectedQuestionNum.push(questionNum);
+            return;
+        }
+        else
+        {
+            select_question_num();
+        }
     }
     else
     {
-        select_question_num();
-    }
-    
+        enter_initial();
+    }    
+
 }
 
 function invokeQuiz()
@@ -252,11 +169,18 @@ function checkAnswer()
         console.log("Correct!");
 
         resultEl.innerText = "Correct!";
+        secondsLeft += 10;
     }
     else
     {
         console.log("Wrong!");
-        resultEl.innerText = "Wrong!";        
+        resultEl.innerText = "Wrong!";       
+        secondsLeft -= 10;
+        
+        if (secondsLeft < 0) 
+        {
+            secondsLeft = 0;
+        }
     }
     DynamicDisplayEl.appendChild(barEl);
     DynamicDisplayEl.appendChild(resultEl);
@@ -270,7 +194,14 @@ function checkAnswer()
         setTimeout(enter_initial, 2000);
     }
     else {
-        setTimeout(invokeQuiz, 2000);
+        if (secondsLeft > 0)
+        {
+            setTimeout(invokeQuiz, 2000);
+        }
+        else
+        {
+            setTimeout(enter_initial, 2000);
+        }
     }
 }
 
@@ -288,6 +219,7 @@ function enter_initial()
 {
     console.log("enter_initial!");    
 
+    gameStopped = true;
     DynamicDisplayEl.innerHTML = "";
     DynamicDisplayEl.classList.remove('DynamicDisplay_class');
     DynamicDisplayEl.classList.add('Quiz_container');
@@ -339,6 +271,8 @@ function enter_initial()
             score: secondsLeft,
         }
         userInfoArray.push(userInfo);
+        console.log("userInfoArray = " + userInfoArray);
+
         localStorage.setItem("userInfo", JSON.stringify(userInfoArray));;
 
         playCount++;
@@ -353,12 +287,13 @@ function enter_initial()
     navEl.appendChild(ulEl);
     formEl.appendChild(navEl);
     DynamicDisplayEl.appendChild(formEl);
-
 }
 
 function renderUserInfo()
 {
     console.log("renderUserInfo");
+
+    gameStopped = true;
 
     var count = JSON.parse(localStorage.getItem("playCount"));
     var storedUsrInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -419,7 +354,7 @@ function renderUserInfo()
     var clearHighScoreButtonEl = document.createElement("button");
     clearHighScoreButtonEl.classList.add('button_class');
     clearHighScoreButtonEl.setAttribute('style', 'width: 280px');    
-    clearHighScoreButtonEl.innerText = "Cear high scores";
+    clearHighScoreButtonEl.innerText = "Clear high scores";
     clearHighScoreButtonEl.addEventListener("click", function(event) {
         clearHighScoreButtonEl.setAttribute('style', 'background-color:rgb(233, 121, 212)');
         event.preventDefault();
@@ -437,6 +372,8 @@ function renderUserInfo()
 
 function clear_highscore()
 {
+    gameStopped = true;
+
     userInfoArray = [];
     playCount = 0;
     selectedQuestionNum = [];
@@ -450,6 +387,8 @@ function clear_highscore()
 
 function displayQuiz()
 {
+    gameStopped = false;
+
     console.log("displayQuiz!");        
 
     DynamicDisplayEl.innerHTML = "";
@@ -490,7 +429,11 @@ function displayQuiz()
 function initialize_display() {
     console.log("initialize_display");
 
-    secondsLeft = 60;
+    restoreSavedUsrInfo();    
+    gameStopped = false;
+    selectedQuestionNum = [];
+    secondsLeft = 60;            
+    questionCount = 0;
     DynamicDisplayEl.innerHTML = "";    
     DynamicDisplayEl.classList.add('DynamicDisplay_class');
 
@@ -521,12 +464,38 @@ function initialize_display() {
     });
 
     DynamicDisplayEl.appendChild(startQuizButton);
-
-    setTime();
 }
 
+viewHighScoreEl.addEventListener("click", function(event) {
+    
+    event.preventDefault();
 
-enter_initial();
-/*
+    renderUserInfo();
+});
+
+function restoreSavedUsrInfo()
+{
+    var count = JSON.parse(localStorage.getItem("playCount"));    
+    var storedUsrInfo = JSON.parse(localStorage.getItem("userInfo"));
+    console.log("count: ", count);    
+    console.log("storedUsrInfo: ", storedUsrInfo);        
+
+    playCount = count;
+    for (var i=0; i<count; i++)
+    {
+        console.log("initial[" + i + "]: ", storedUsrInfo[i].initial);
+        console.log("score[" + i + "]: ", storedUsrInfo[i].score);
+
+        var userInfo = {
+            initial: storedUsrInfo[i].initial,
+            score: storedUsrInfo[i].score,
+        }
+    
+        userInfoArray.push(userInfo);
+    }
+}
+
 initialize_display();
-*/
+
+
+
