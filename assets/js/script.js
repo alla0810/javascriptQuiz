@@ -2,19 +2,7 @@ var DynamicDisplayEl = document.getElementById("Dynamic-Display");
 var viewHighScoreEl = document.getElementById("View-Highscore");
 
 var timeEl = document.getElementById("timer-Count");
-var quizTimer = document.getElementById("quiz-timer");
 var startQuizButton = document.getElementById("start-quiz");
-var h1El = document.getElementById("h1-element");
-var h2El = document.getElementById("h2-element");
-var resultEl = document.getElementById("result-element");
-var formEl = document.getElementById("form-initial");
-var submitButton = document.querySelector("#initial-submit");
-var gobackContainerEl = document.getElementById("go-back");
-var inputInitialEl = document.getElementById("input-initial");
-var gobackButtonEl = document.getElementById("button-goback");
-var clearHighscoreButtonEl = document.getElementById("clear-highscore");
-
-var questionContainer = document.getElementById("question-container");
 
 var secondsLeft = 60;
 var gameStopped = false;
@@ -24,8 +12,6 @@ let checkedOption = -1;
 let playCount=0;
 let questionCount = 0;
 let selectedQuestionNum = [];
-
-let highScore_History = [];
 var userInfoArray = [];
 
 const quizArray = [
@@ -57,7 +43,7 @@ const quizArray = [
         id: "4",
         question: "String values must be enclosed with _____ when being assigned to variables.",
         options: ["1. commas", "2. curly brackets", "3. quotes", "4. parenthesis"],
-        correct: "3. quotess",
+        correct: "3. quotes",
     },
 
 ];
@@ -71,7 +57,8 @@ function setTime()
 
     secondsLeft--;                      
 
-    if (gameStopped === true)
+    // prevent time-ticking when game is not being played    
+    if (gameStopped === true)           
     {
         clearInterval(timerInterval);
     }
@@ -88,17 +75,8 @@ function setTime()
             clearInterval(timerInterval);
         }
     }
-
     }, 1000);
 }
-
-
-
-function sendMessage() {
-    timeEl.textContent = " ";
-
-}
-
 
 
 function display_highScore()
@@ -115,8 +93,6 @@ function display_highScore()
     li1.textContent = highScore_History[0].initial + " - " + highScore_History[0].score;
     li1.setAttribute("style", "background: #444");
     h2El.appendChild(li1);
-
-    gobackContainerEl.style.visibility = 'visible';
 }
 
 
@@ -134,12 +110,12 @@ function select_question_num()
         }
         else
         {
-            select_question_num();
+            select_question_num();      // recursively select question number
         }
     }
     else
     {
-        enter_initial();
+        enter_initial();            // to prevent infinite recursive
     }    
 
 }
@@ -169,13 +145,13 @@ function checkAnswer()
         console.log("Correct!");
 
         resultEl.innerText = "Correct!";
-        secondsLeft += 10;
+        secondsLeft += 10;                  // prize
     }
     else
     {
         console.log("Wrong!");
         resultEl.innerText = "Wrong!";       
-        secondsLeft -= 10;
+        secondsLeft -= 10;                  // penalty
         
         if (secondsLeft < 0) 
         {
@@ -188,7 +164,7 @@ function checkAnswer()
     questionCount++;
     console.log("questionCount = " + questionCount);
 
-    /* wait for 2s */
+    /* solved all of the questions */
     if (questionCount >= quizArray.length)
     {
         setTimeout(enter_initial, 2000);
@@ -196,7 +172,7 @@ function checkAnswer()
     else {
         if (secondsLeft > 0)
         {
-            setTimeout(invokeQuiz, 2000);
+            setTimeout(invokeQuiz, 2000);   // 2000ms delay for slow down game speed
         }
         else
         {
@@ -204,7 +180,6 @@ function checkAnswer()
         }
     }
 }
-
 
 
 /*
@@ -247,7 +222,6 @@ function enter_initial()
    
     var inputInitialEl = document.createElement("input");
     inputInitialEl.setAttribute("type", "text");
-//    inputInitialEl.setAttribute("style", "width: 55%");
     inputInitialEl.setAttribute("placeholder", "JaneDoe");
     inputInitialEl.setAttribute("id", "InputInitialId");
 
@@ -326,7 +300,6 @@ function renderUserInfo()
 
         var List2El = document.createElement("Quiz_question_class");
         List2El.setAttribute('style', 'width: 700px; font-size: 1.5em; font-weight: 300; background: rgb(203, 184, 235); padding: 8px');        
-//        List2El.textContent = num.toString(i) + ". " + storedUsrInfo[i].initial + " - " + num.toString(storedUsrInfo[i].score);
         List2El.textContent = (i+1).toString() + ". " + storedUsrInfo[i].initial + " - " + storedUsrInfo[i].score.toString();        
 
         DynamicDisplayEl.appendChild(List2El);
@@ -429,12 +402,16 @@ function displayQuiz()
 function initialize_display() {
     console.log("initialize_display");
 
-    restoreSavedUsrInfo();    
     gameStopped = false;
     selectedQuestionNum = [];
     secondsLeft = 60;            
     questionCount = 0;
     DynamicDisplayEl.innerHTML = "";    
+
+    // reset all the classes when goback called
+    DynamicDisplayEl.classList.remove('DynamicDisplay_class');  
+    DynamicDisplayEl.classList.remove('Quiz_container');
+
     DynamicDisplayEl.classList.add('DynamicDisplay_class');
 
     var h1List = document.createElement("h1");
@@ -455,7 +432,7 @@ function initialize_display() {
     startQuizButton.id = "start-quiz";
     startQuizButton.innerText = "Start Quiz";
     startQuizButton.addEventListener("click", function(event) {
-        startQuizButton.setAttribute('style', 'background-color:rgb(233, 121, 212)');
+    startQuizButton.setAttribute('style', 'background-color:rgb(233, 121, 212)');
         
         event.preventDefault();
         setTime();
@@ -495,6 +472,7 @@ function restoreSavedUsrInfo()
     }
 }
 
+restoreSavedUsrInfo();    
 initialize_display();
 
 

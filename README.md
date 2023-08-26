@@ -2,12 +2,14 @@
 
   * Author: Kyosook Shin
   * Author's Email: kyosook.shin@gmail.com
-  * Deployed URL: https://alla0810.github.io/Code_Quiz/
-  * GitHub: https://github.com/alla0810/Code_Quiz
+  * Deployed URL: https://alla0810.github.io/javascriptQuiz/
+  * GitHub: https://github.com/alla0810/javascriptQuiz
   * screenshot
-![screen2](./assets/images/screen2.png)
+![screen1](./assets/images/screen1.png)
+![screen3](./assets/images/screen3.png)
 ![screen4](./assets/images/screen4.png)
 ![screen5](./assets/images/screen5.png)
+![screen6](./assets/images/screen6.png)
 
 ## Source Code References
   This project has used some reference codes from the following sites
@@ -17,7 +19,6 @@
    * https://git.bootcampcontent.com/University-of-Texas-at-Austin/UTA-VIRT-FSF-PT-07-2023-U-LOLC.git   
 
    
-
 ## User Story
 
 AS A coding boot camp student
@@ -33,7 +34,7 @@ GIVEN I am taking a code quiz
 * WHEN I answer a question, THEN I am presented with another question
 
 * WHEN I answer a question incorrectly, THEN time is subtracted from the clock   
-  ➨ How much subtraction? Decided as (-10 seconds) by the author 
+  ➨ How much subtraction? (-10 seconds) from the start page
 
 * When the user answer correctly, THEN time is added by (+10 seconds)
   ➨ Added by the author.
