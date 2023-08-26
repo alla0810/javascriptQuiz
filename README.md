@@ -39,10 +39,6 @@ GIVEN I am taking a code quiz
   ➨ Added by the author.  
   ➨ From the mock-up picture, sometimes the timer exceeds the initial value, which means there should be some addtion of timer value when the answer is correct as a prize.    
 
-* When the user answer correctly, THEN time is added by (+10 seconds) 
-  ➨ Added by the author.
-  ➨ From the mock-up picture, sometimes the timer exceeds the initial value, which means there should be some addtion of timer value when the answer is correct as a prize.     
-
 * WHEN all questions are answered or the timer reaches 0, THEN the game is over
 
 * WHEN the game is over, THEN I can save my initials and score
